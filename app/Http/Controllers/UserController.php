@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
@@ -24,10 +25,12 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password,
         ]);
 
-        return $this->response('Usuário criado com sucesso', 200);
+        return response()->json([
+            'message' => 'Successfully created',
+            'user' => $user
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -44,15 +47,17 @@ class UserController extends Controller
     public function update(Request $request)
     {
         $user = $request->user();
-        
+
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->password,
-            'avatar' => $request->avatar
         ]);
 
-        return $this->response('Usuário atualizado com sucesso', 200);
+        return response()->json([
+            'message' => 'Successfully updated',
+            'user' => $user
+        ], Response::HTTP_OK);
+
     }
 
     /**

@@ -13,7 +13,7 @@ Route::middleware(['guest'])->group(function () {
 
     Route::post('/user', [UserController::class, 'store']);
 
-    Route::post('login', [AuthController::class, 'store']);
+    Route::post('/login', [AuthController::class, 'store']);
 });
 
 
@@ -24,5 +24,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::put('/user', [UserController::class, 'update']);
 
-    Route::post('logout', [AuthController::class, 'destroy']);
+    Route::post('/logout', [AuthController::class, 'destroy']);
 });
