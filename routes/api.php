@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -9,6 +10,9 @@ use Illuminate\Support\Facades\Route;
  * @group guest
  */
 Route::middleware(['guest'])->group(function () {
+
+    Route::post('/user', [UserController::class, 'store']);
+
     Route::post('login', [AuthController::class, 'store']);
 });
 
@@ -17,5 +21,8 @@ Route::middleware(['guest'])->group(function () {
  * @group auth
  */
 Route::middleware(['auth:sanctum'])->group(function () {
+
+    Route::put('/user', [UserController::class, 'update']);
+
     Route::post('logout', [AuthController::class, 'destroy']);
 });
