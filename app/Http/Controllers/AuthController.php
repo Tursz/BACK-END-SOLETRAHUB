@@ -17,12 +17,12 @@ class AuthController extends Controller
         if (!$user || !Hash::check($request->password, $user->password)) {
 
             return response()->json([
-                'message' => 'redenciais inválidas'
+                'message' => 'Credenciais inválidas'
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         return response()->json([
-            'message' => 'Login successfully',
+            'message' => 'Conectado com sucesso',
             'token' => $user->createToken($request->email)->plainTextToken,
         ], Response::HTTP_OK);
 
@@ -33,7 +33,7 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
 
         return response()->json([
-            'message' => 'Logout successfully'
+            'message' => 'Desconectado com sucesso'
         ], Response::HTTP_OK);
     }
 }

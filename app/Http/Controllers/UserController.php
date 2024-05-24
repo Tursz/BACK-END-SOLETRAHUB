@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,10 +26,11 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'password' => $request->password
         ]);
 
         return response()->json([
-            'message' => 'Successfully created',
+            'message' => 'Cadastrado com sucesso',
             'user' => $user
         ], Response::HTTP_OK);
     }
@@ -44,7 +46,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(UpdateUserRequest $request)
     {
         $user = $request->user();
 
@@ -54,7 +56,7 @@ class UserController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Successfully updated',
+            'message' => 'Editado com sucesso',
             'user' => $user
         ], Response::HTTP_OK);
 
