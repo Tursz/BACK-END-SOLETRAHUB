@@ -12,6 +12,7 @@ class PasswordController extends Controller
 
 
     /**
+     * Editar senha usuário logado
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request)
