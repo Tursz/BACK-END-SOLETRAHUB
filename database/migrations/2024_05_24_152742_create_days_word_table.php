@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('days_word', function (Blueprint $table) {
+        Schema::create('day_letters', function (Blueprint $table) {
             $table->id();
-            $table->string('word_1');
-            $table->string('word_2');
-            $table->string('word_3');
-            $table->string('word_4');
-            $table->string('word_5');
-            $table->string('word_6');
-            $table->string('word_7');
+            $table->string('letter_1');
+            $table->string('letter_2');
+            $table->string('letter_3');
+            $table->string('letter_4');
+            $table->string('letter_5');
+            $table->string('letter_6');
+            $table->string('letter_7');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('days_word');
+        Schema::dropIfExists('day_letters');
     }
 };

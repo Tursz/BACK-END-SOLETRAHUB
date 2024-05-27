@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('points');
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('days_word_id')->constrained('days_word');
+            $table->foreignId('day_letter_id')->constrained('day_letters');
             $table->timestamps();
         });
     }
