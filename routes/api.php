@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DayLetterController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -20,6 +22,12 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/password/forgot', [PasswordController::class, 'forgotPassword']);
 
     Route::post('/password/reset', [PasswordController::class,'newPassword']);
+
+    Route::post('day-letter', [DayLetterController::class, 'store']);
+
+    Route::get('day-letter', [DayLetterController::class, 'index']);
+
+    Route::get('day-letter/{date}', [DayLetterController::class, 'show']);
 });
 
 
