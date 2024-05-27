@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ForgotPassword;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Symfony\Component\HttpFoundation\Response;
 
 class PasswordController extends Controller
@@ -40,8 +43,38 @@ class PasswordController extends Controller
     }
 
     // método de esqueci a senha (deslogado)
-    // método de nova senha (deslogado, com o código enviado no email de esqueci a senha)
-    public function newPassword()
+    public function forgotPassword(Request $request)
     {
+        $request->validate([
+            'email' =>['required','email','exists:users,email'],
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        Mail::to($user)->send(new ForgotPassword($user));
+
+        return response()->json(['message' => 'Verifique seu email.'], Response::HTTP_OK);
+    }
+    // método de nova senha (deslogado, com o código enviado no email de esqueci a senha)
+    public function newPassword(Request $request)
+    {
+        $request->validate([
+            'token'    => ['required','min:6','max:6'],
+            'password' => ['required','min:6','max:30','confirmed'],
+        ]);
+
+        $data = DB::select("select * from password_reset_tokens where token =?", [$request->token]);
+         if(!$data){
+            return response()->json(['message' => 'Token inválido.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        
+        $user=User::where('email',$data[0]->email)->first();
+        $user->update([
+            'password' => $request->password
+        ]);
+
+        DB::delete('delete from password_reset_tokens where email =?', [$user->email]);
+
+        return response()->json(['message' => 'Senha atualizada com sucesso.'], Response::HTTP_OK);
     }
 }
