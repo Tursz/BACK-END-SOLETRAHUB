@@ -31,7 +31,7 @@ class DayLetterController extends Controller
             'letter_5' => $request->letter_5,
             'letter_6' => $request->letter_6,
             'letter_7' => $request->letter_7,
-            'letter_8' => $request->letter_8,
+            'date' => date('Y-m-d'),
         ]);
         return response()->json($letters, Response::HTTP_OK);
     }
@@ -59,6 +59,7 @@ class DayLetterController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $dayLetter = DayLetter::find($id);
+        $dayLetter->delete();
     }
 }

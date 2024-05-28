@@ -18,6 +18,6 @@ class DayLetter extends Model
         'letter_5',
         'letter_6',
         'letter_7',
-        'letter_8',
+        'date',
     ];
 }

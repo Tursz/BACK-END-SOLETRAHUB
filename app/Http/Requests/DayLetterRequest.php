@@ -11,7 +11,7 @@ class DayLetterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,6 @@ class DayLetterRequest extends FormRequest
             'letter_5' => ['required', 'min:1', 'max:1'],
             'letter_6' => ['required', 'min:1', 'max:1'],
             'letter_7' => ['required', 'min:1', 'max:1'],
-            'letter_8' => ['required', 'min:1', 'max:1'],
         ];
     }
 }

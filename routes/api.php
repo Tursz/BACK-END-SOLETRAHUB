@@ -2,9 +2,12 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DayLetterController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+
+
 
 
 
@@ -14,6 +17,8 @@ use Illuminate\Support\Facades\Route;
  * @group guest
  */
 Route::middleware(['guest'])->group(function () {
+
+    Route::get('/home', [HomeController::class, 'index']);
 
     Route::post('/user', [UserController::class, 'store']);
 
@@ -26,6 +31,8 @@ Route::middleware(['guest'])->group(function () {
     Route::post('day-letter', [DayLetterController::class, 'store']);
 
     Route::get('day-letter', [DayLetterController::class, 'index']);
+
+    Route::delete('day-letter/{id}', [DayLetterController::class, 'destroy']);
 
     Route::get('day-letter/{date}', [DayLetterController::class, 'show']);
 });

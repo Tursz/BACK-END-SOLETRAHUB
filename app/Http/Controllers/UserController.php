@@ -53,6 +53,7 @@ class UserController extends Controller
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
+            'avatar' => $request->avatar,
         ]);
 
         return response()->json([
