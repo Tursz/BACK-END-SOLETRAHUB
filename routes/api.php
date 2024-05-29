@@ -4,8 +4,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DayLetterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\RankingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+
 
 
 
@@ -19,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['guest'])->group(function () {
 
     Route::get('/home', [HomeController::class, 'index']);
+
+    Route::get('/ranking', [RankingController::class, 'index']);
 
     Route::post('/user', [UserController::class, 'store']);
 
@@ -35,6 +39,8 @@ Route::middleware(['guest'])->group(function () {
     Route::delete('day-letter/{id}', [DayLetterController::class, 'destroy']);
 
     Route::get('day-letter/{date}', [DayLetterController::class, 'show']);
+
+    Route::get('user/{id}', [UserController::class, 'show']);
 });
 
 
@@ -46,6 +52,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/user', [UserController::class, 'update']);
 
     Route::post('/password/update', [PasswordController::class, 'update']);
+
+    Route::post('/home/answer', [HomeController::class, 'store']);
 
     Route::post('/logout', [AuthController::class, 'destroy']);
 });

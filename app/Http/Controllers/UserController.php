@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
@@ -38,9 +39,19 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show()
+    public function show($id)
     {
-        //
+        if(!$user = User::find($id)){
+            return response()->json(['message'=> 'Usuário não encontrado!'], Response::HTTP_NOT_FOUND);
+        }
+        $points = DB::table('rankings')
+            ->join('users', 'users.id', '=', 'rankings.user_id')
+            ->where('users.id', $id)
+            ->select(
+                DB::raw('SUM(rankings.points) as points'),
+                DB::raw('COUNT(user_id) as games'),
+            )->get(); 
+        return response()->json([$user, $points], Response::HTTP_OK);
     }
 
     /**
