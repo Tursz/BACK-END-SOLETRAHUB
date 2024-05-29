@@ -24,6 +24,7 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Conectado com sucesso',
             'token' => $user->createToken($request->email)->plainTextToken,
+            'user' => User::where('email', $user->email)->first(),
         ], Response::HTTP_OK);
 
     }

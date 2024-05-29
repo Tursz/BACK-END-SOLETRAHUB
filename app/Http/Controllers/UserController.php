@@ -27,6 +27,7 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'nickname' => $request->nickname,
             'password' => $request->password
         ]);
 
@@ -42,7 +43,7 @@ class UserController extends Controller
     public function show($id)
     {
         if(!$user = User::find($id)){
-            return response()->json(['message'=> 'Usuário não encontrado!'], Response::HTTP_NOT_FOUND);
+            return response()->json(['message'=> 'Usuário não encontrado.'], Response::HTTP_NOT_FOUND);
         }
         $points = DB::table('rankings')
             ->join('users', 'users.id', '=', 'rankings.user_id')
@@ -64,6 +65,7 @@ class UserController extends Controller
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
+            'nickname' => $request->nickname,
             'avatar' => $request->avatar,
         ]);
 

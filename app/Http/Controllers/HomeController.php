@@ -27,7 +27,7 @@ class HomeController extends Controller
         }
 
         $letra = 'letter_'.rand(1,7);
-        // dd($letra);
+        dd($letra);
 
 
         // $dayLetters = DayLetter::whereDate('created_at', '=', $date)->first();
