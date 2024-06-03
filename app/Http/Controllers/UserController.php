@@ -82,12 +82,7 @@ class UserController extends Controller
      */
     public function destroy(Request $request)
     {
-        $user=User::find($request->user()->id);
-        if(!$user){
-            return response()->json([
-                'message'=> 'Usuário não encontrado.'
-            ], Response::HTTP_NOT_FOUND);
-        }
+        $user = $request->user();
         $user->rankings()->delete();
         $user->delete();
         return response()->json([

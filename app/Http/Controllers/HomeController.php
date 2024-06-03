@@ -18,25 +18,34 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        if(!$date = $request->date){
+        if (!$date = $request->date) {
             $date = date('Y-m-d');
         }
-        if(!$dayLetters = DayLetter::whereDate('date', '=', $date)->first()){
+        if (!$dayLetters = DayLetter::whereDate('date', '=', $date)->first()) {
             $letterService = new LetterService;
             $dayLetters = $letterService->randLetter($date);
         }
 
-        $letra = 'letter_'.rand(1,7);
+        $letra = 'letter_' . rand(1, 7);
         // dd($letra);
 
 
         // $dayLetters = DayLetter::whereDate('created_at', '=', $date)->first();
-        $letters = $dayLetters->letter_1 . $dayLetters->letter_2 . $dayLetters->letter_3 . $dayLetters->letter_4 . $dayLetters->letter_5. $dayLetters->letter_6 . $dayLetters->letter_7;
+        $letters = $dayLetters->letter_1 . $dayLetters->letter_2 . $dayLetters->letter_3 . $dayLetters->letter_4 . $dayLetters->letter_5 . $dayLetters->letter_6 . $dayLetters->letter_7;
         $pattern = "^[$letters]+$dayLetters->letter_1[$letters]*$";
 
         $words = Word::where('word', 'REGEXP', $pattern)->get();
 
-        return response()->json([$dayLetters,$words], Response::HTTP_OK);
+        $countLetter = array();
+        foreach ($words as $word) {
+            $countLetter[]= [strlen($word->word),$word->id];
+        }
+
+
+        return response()->json([
+            $dayLetters,
+            $countLetter,
+        ], Response::HTTP_OK);
     }
 
 
@@ -45,25 +54,24 @@ class HomeController extends Controller
      */
     public function store(Request $request)
     {
-        if(!$request->date){
+        if (!$request->date) {
             $date = date('Y-m-d');
         }
-        $user = $request->user();
         $dayLetters = DayLetter::whereDate('date', '=', $date)->first();
-        $letters = $dayLetters->letter_1 . $dayLetters->letter_2 . $dayLetters->letter_3 . $dayLetters->letter_4 . $dayLetters->letter_5. $dayLetters->letter_6 . $dayLetters->letter_7;
+        $letters = $dayLetters->letter_1 . $dayLetters->letter_2 . $dayLetters->letter_3 . $dayLetters->letter_4 . $dayLetters->letter_5 . $dayLetters->letter_6 . $dayLetters->letter_7;
         $pattern = "^[$letters]+$dayLetters->letter_1[$letters]*$";
 
-        $words = Word::where('word', 'REGEXP', $pattern)->where('word',$request->answer)->first();
+        $words = Word::where('word', 'REGEXP', $pattern)->where('word', $request->answer)->first();
         // dd($words->id);
-        if(!$words){
-            return response()->json(['message'=> 'Errou!'], Response::HTTP_OK);
+        if (!$words) {
+            return response()->json(['message' => 'Errou!'], Response::HTTP_OK);
         }
         Ranking::create([
             'user_id' => $request->user()->id,
             'day_letter_id' => $dayLetters->id,
             'points' => 1,
         ]);
-        return response()->json(['message'=> 'Acertou!'], Response::HTTP_OK);
+        return response()->json(['message' => 'Acertou!'], Response::HTTP_OK);
     }
 
     /**

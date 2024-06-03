@@ -26,7 +26,7 @@ class StoreUserRequest extends FormRequest
             'nickname' =>['required','string','min:3','max:40','unique:users,nickname'],
             'email' =>['required','string','email','max:255','unique:users,email'],
             'password' => ['nullable','string','min:5'],
-            'avatar' => ['nullable','image:jpg, jpeg, png, bmp, gif, svg, webp']
+            'avatar' => ['nullable']
         ];
     }
 
