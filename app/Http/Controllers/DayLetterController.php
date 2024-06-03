@@ -12,9 +12,12 @@ class DayLetterController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $letters = DayLetter::get();
+        if(!$request->date){
+            $letters = DayLetter::orderByDesc('date')->get();
+        }
+        $letters = DayLetter::where('date', $request->date)->first();
         return response()->json($letters, Response::HTTP_OK);
     }
 
@@ -23,17 +26,17 @@ class DayLetterController extends Controller
      */
     public function store(DayLetterRequest $request)
     {
-        $letters = DayLetter::create([
-            'letter_1' => $request->letter_1,
-            'letter_2' => $request->letter_2,
-            'letter_3' => $request->letter_3,
-            'letter_4' => $request->letter_4,
-            'letter_5' => $request->letter_5,
-            'letter_6' => $request->letter_6,
-            'letter_7' => $request->letter_7,
-            'date' => date('Y-m-d'),
-        ]);
-        return response()->json($letters, Response::HTTP_OK);
+        // $letters = DayLetter::create([
+        //     'letter_1' => $request->letter_1,
+        //     'letter_2' => $request->letter_2,
+        //     'letter_3' => $request->letter_3,
+        //     'letter_4' => $request->letter_4,
+        //     'letter_5' => $request->letter_5,
+        //     'letter_6' => $request->letter_6,
+        //     'letter_7' => $request->letter_7,
+        //     'date' => date('Y-m-d'),
+        // ]);
+        // return response()->json($letters, Response::HTTP_OK);
     }
 
     /**
@@ -42,8 +45,8 @@ class DayLetterController extends Controller
     public function show(Request $request, $date)
     {
         // dd($id);
-        $letters = DayLetter::whereDate('created_at','=', $date)->first();
-        return response()->json($letters, Response::HTTP_OK);
+        // $letters = DayLetter::whereDate('created_at','=', $date)->first();
+        // return response()->json($letters, Response::HTTP_OK);
     }
 
     /**
@@ -59,7 +62,7 @@ class DayLetterController extends Controller
      */
     public function destroy(string $id)
     {
-        $dayLetter = DayLetter::find($id);
-        $dayLetter->delete();
+        // $dayLetter = DayLetter::find($id);
+        // $dayLetter->delete();
     }
 }

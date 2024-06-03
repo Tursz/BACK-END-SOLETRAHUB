@@ -32,14 +32,6 @@ Route::middleware(['guest'])->group(function () {
 
     Route::post('/password/reset', [PasswordController::class,'newPassword']);
 
-    Route::post('day-letter', [DayLetterController::class, 'store']);
-
-    Route::get('day-letter', [DayLetterController::class, 'index']);
-
-    Route::delete('day-letter/{id}', [DayLetterController::class, 'destroy']);
-
-    Route::get('day-letter/{date}', [DayLetterController::class, 'show']);
-
     Route::get('user/{id}', [UserController::class, 'show']);
 });
 
@@ -50,6 +42,8 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::put('/user', [UserController::class, 'update']);
+
+    Route::delete('/user', [UserController::class, 'destroy']);
 
     Route::post('/password/update', [PasswordController::class, 'update']);
 

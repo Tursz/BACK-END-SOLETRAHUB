@@ -28,6 +28,7 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'nickname' => $request->nickname,
+            'avatar' => $request->avatar,
             'password' => $request->password
         ]);
 
@@ -79,8 +80,18 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $user=User::find($request->user()->id);
+        if(!$user){
+            return response()->json([
+                'message'=> 'Usuário não encontrado.'
+            ], Response::HTTP_NOT_FOUND);
+        }
+        $user->rankings()->delete();
+        $user->delete();
+        return response()->json([
+           'message' => 'Usuário deletado com sucesso.'
+        ], Response::HTTP_OK);
     }
 }
