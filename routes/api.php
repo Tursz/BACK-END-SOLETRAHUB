@@ -22,6 +22,8 @@ Route::middleware(['guest'])->group(function () {
 
     Route::get('/home', [HomeController::class, 'index']);
 
+    Route::get('/home/words', [HomeController::class, 'answer']);
+
     Route::get('/ranking', [RankingController::class, 'index']);
 
     Route::post('/user', [UserController::class, 'store']);

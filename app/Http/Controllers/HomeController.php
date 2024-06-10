@@ -98,6 +98,18 @@ class HomeController extends Controller
         return response()->json($point, Response::HTTP_OK);
     }
 
+    public function answer(Request $request)
+    {
+        if(!$request->date){
+            $date = date('Y-m-d');
+        }
+        $dayLetters = DayLetter::whereDate('date', '=', $date)->first();
+        $letters = $dayLetters->letter_1 . $dayLetters->letter_2 . $dayLetters->letter_3 . $dayLetters->letter_4 . $dayLetters->letter_5 . $dayLetters->letter_6 . $dayLetters->letter_7;
+        $pattern = "^[$letters]+$dayLetters->letter_1[$letters]*$";
+        $words = Word::where('word', 'REGEXP', $pattern)->get();
+        
+        return response()->json(["message"=>$words], Response::HTTP_OK);
+    }
     /**
      * Display the specified resource.
      */
