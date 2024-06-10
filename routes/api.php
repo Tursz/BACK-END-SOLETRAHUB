@@ -49,6 +49,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/password/update', [PasswordController::class, 'update']);
 
+    Route::post('/home/score', [HomeController::class, 'score']);
+
     Route::post('/home/answer', [HomeController::class, 'store']);
 
     Route::post('/logout', [AuthController::class, 'destroy']);

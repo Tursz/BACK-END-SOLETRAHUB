@@ -38,6 +38,11 @@ class DayLetterSeeder extends Seeder
                 $letter_6 = substr(str_shuffle('bcdfghjlmnpqrtsv'), 0,1);
                 $letter_7 = substr(str_shuffle('bcdfghjlmnpqrtsv'), 0,1);
             }
+            if($letter_4 == 'q' || $letter_5 == 'q' || $letter_6 == 'q' || $letter_7 =='q'){
+                if($letterVogal_1 != 'u' || $letterVogal_2 != 'u' || $letterVogal_3 != 'u'){
+                    $letterVogal_2 = 'u';
+                }
+            }
             DayLetter::create([
                 'letter_1' => $letterVogal_1,
                 'letter_2' => $letterVogal_2,

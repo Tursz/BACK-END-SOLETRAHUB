@@ -20,7 +20,8 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Cadastro de um novo usuário.
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreUserRequest $request)
     {
@@ -39,7 +40,9 @@ class UserController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Mostra um usuário especifíco de acordo com o $id junto com sua pontuação e
+     * quantidade de jogos.
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -57,7 +60,8 @@ class UserController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Atualiza o usuário.
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateUserRequest $request)
     {
@@ -78,7 +82,8 @@ class UserController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Apaga o registro do usuário.
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Request $request)
     {

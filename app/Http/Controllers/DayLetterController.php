@@ -10,7 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 class DayLetterController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Mostra todas as letras de dias anteriores ou do dia solicitado.
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {

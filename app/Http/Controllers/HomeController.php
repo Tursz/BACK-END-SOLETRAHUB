@@ -14,7 +14,9 @@ use Symfony\Component\HttpFoundation\Response;
 class HomeController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Mostra as letras do dia junto com as palavras que
+     * correspondem com as mesmas, caso não exista cria novas letras para aquele dia.
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
@@ -27,10 +29,7 @@ class HomeController extends Controller
         }
 
         $letra = 'letter_' . rand(1, 7);
-        // dd($letra);
 
-
-        // $dayLetters = DayLetter::whereDate('created_at', '=', $date)->first();
         $letters = $dayLetters->letter_1 . $dayLetters->letter_2 . $dayLetters->letter_3 . $dayLetters->letter_4 . $dayLetters->letter_5 . $dayLetters->letter_6 . $dayLetters->letter_7;
         $pattern = "^[$letters]+$dayLetters->letter_1[$letters]*$";
 
@@ -50,7 +49,8 @@ class HomeController extends Controller
 
 
     /**
-     * Store a newly created resource in storage.
+     * Verifica se a palavra enviada pelo usuário é correta ou não.
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -60,18 +60,42 @@ class HomeController extends Controller
         $dayLetters = DayLetter::whereDate('date', '=', $date)->first();
         $letters = $dayLetters->letter_1 . $dayLetters->letter_2 . $dayLetters->letter_3 . $dayLetters->letter_4 . $dayLetters->letter_5 . $dayLetters->letter_6 . $dayLetters->letter_7;
         $pattern = "^[$letters]+$dayLetters->letter_1[$letters]*$";
-
+        $answer = true;
         $words = Word::where('word', 'REGEXP', $pattern)->where('word', $request->answer)->first();
-        // dd($words->id);
         if (!$words) {
-            return response()->json(['message' => 'Errou!'], Response::HTTP_OK);
+            $answer = false;
+            return response()->json($answer, Response::HTTP_OK);
         }
-        Ranking::create([
-            'user_id' => $request->user()->id,
-            'day_letter_id' => $dayLetters->id,
-            'points' => 1,
+        return response()->json([$answer, $words->id, $words->word], Response::HTTP_OK);
+    }
+
+    /**
+     * Grava a quantidade de pontos feita pelo usuário.
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function score(Request $request)
+    {
+        $request->validate([
+            'time' => ['required'],
+            'correct_count' => ['required'],
         ]);
-        return response()->json(['message' => 'Acertou!'], Response::HTTP_OK);
+        $user = $request->user();
+        if(!$request->date){
+            $date=date('Y-m-d');
+        }
+        if($request->time==0){
+            $multiplier = 1;
+        }else{
+            $multiplier = 2;
+        }
+        $point = $request->correct_count*$multiplier;
+        $dayLetters = DayLetter::whereDate('date',$date)->first();
+        Ranking::create([
+            'user_id' => $user->id,
+            'day_letter_id' => $dayLetters->id,
+            'points' => $point,
+        ]);
+        return response()->json($point, Response::HTTP_OK);
     }
 
     /**

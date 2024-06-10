@@ -11,7 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 class RankingController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Mostra o ranking dos usuário baseado em suas pontuações.
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
