@@ -73,29 +73,19 @@ class HomeController extends Controller
      * Grava a quantidade de pontos feita pelo usuário.
      * @return \Illuminate\Http\JsonResponse
      */
-    public function score(Request $request)
+    public function score(Request $request, $points)
     {
-        $request->validate([
-            'time' => ['required'],
-            'correct_count' => ['required'],
-        ]);
         $user = $request->user();
         if(!$request->date){
             $date=date('Y-m-d');
         }
-        if($request->time==0){
-            $multiplier = 1;
-        }else{
-            $multiplier = 2;
-        }
-        $point = $request->correct_count*$multiplier;
         $dayLetters = DayLetter::whereDate('date',$date)->first();
         Ranking::create([
             'user_id' => $user->id,
             'day_letter_id' => $dayLetters->id,
-            'points' => $point,
+            'points' => $points,
         ]);
-        return response()->json($point, Response::HTTP_OK);
+        return response()->json($points, Response::HTTP_OK);
     }
 
     public function answer(Request $request)
