@@ -103,9 +103,18 @@ class HomeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function canPlay(Request $request)
     {
-        //
+        $user = $request->user();
+        if (!$request->date) {
+            $date = date('Y-m-d');
+        }
+        $dayLetters = DayLetter::whereDate('date', '=', $date)->first();
+        $ranking = Ranking::where('user_id', $user->id)->where('day_letter_id', $dayLetters->id)->first();
+        if (!$ranking) {
+            return response()->json(false, Response::HTTP_OK);
+        }
+        return response()->json(true, Response::HTTP_OK);
     }
 
     /**

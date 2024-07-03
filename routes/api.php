@@ -55,5 +55,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/home/answer', [HomeController::class, 'store']);
 
+    Route::get('/home/allow', [HomeController::class, 'canPlay']);
+
     Route::post('/logout', [AuthController::class, 'destroy']);
 });
